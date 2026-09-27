@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QDialog, QDialogButtonBox, QFormLayout,
                                QHBoxLayout, QLabel, QPushButton, QToolButton, QVBoxLayout, QWidget)
 
-from . import devices
+from . import APP_NAME, APP_VERSION, devices
 from .renderer import SCALING_MODES
 
 # Offered when the card can't be asked for its modes (e.g. not connected).
@@ -30,7 +30,7 @@ def parse_mode_key(key):
 class SettingsDialog(QDialog):
     def __init__(self, settings, audio_running, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Settings")
+        self.setWindowTitle(f"Settings - {APP_NAME} {APP_VERSION}")
         self.setMinimumWidth(480)
         self._settings = replace(settings)
         self._audio_running = audio_running

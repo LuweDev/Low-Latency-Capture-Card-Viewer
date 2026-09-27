@@ -62,7 +62,8 @@ def setup_logging():
     faulthandler.enable(log)  # native crashes (driver faults) get a traceback too
     sys.stdout = _TimestampedLog(log, sys.stdout)
     sys.stderr = _TimestampedLog(log, sys.stderr)
-    print(f"--- started, log: {path}")
+    from viewer import APP_VERSION
+    print(f"--- started v{APP_VERSION}, log: {path}")
 
 
 def dark_palette():
