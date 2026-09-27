@@ -1,0 +1,66 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+import os
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+
+block_cipher = None
+
+# Collect all PySide6 modules
+pyside6_modules = collect_submodules('PySide6')
+
+a = Analysis(
+    ['capture_viewer.py'],
+    pathex=[],
+    binaries=[],
+    datas=[],
+    hiddenimports=pyside6_modules + [
+        'numpy',
+        'cv2',
+        'pyaudio',
+        'threading',
+        'gc'
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False,
+)
+
+# Add Qt plugins
+qt_plugin_paths = {
+    'platforms': os.path.join('PySide6', 'plugins', 'platforms'),
+    'styles': os.path.join('PySide6', 'plugins', 'styles'),
+}
+
+for plugin_type, plugin_path in qt_plugin_paths.items():
+    plugin_files = collect_data_files('PySide6', subdir=plugin_path)
+    a.datas.extend(plugin_files)
+
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    [],
+    name='Low Latency Capture Card Viewer',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon='image.ico'
+)

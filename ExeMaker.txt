@@ -1,0 +1,1 @@
+C:\Users\Luke\AppData\Local\Programs\Python\Python311\python.exe -m PyInstaller --clean capture_viewer.spec
